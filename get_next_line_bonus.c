@@ -1,38 +1,27 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: oezzaou <oezzaou@student.1337.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 02:40:15 by oezzaou           #+#    #+#             */
-/*   Updated: 2022/10/23 02:40:25 by oezzaou          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 t_buff	*ft_lstcreat(int fd, int *size);
 char	*get_line_from_rest(char *rest);
 char	*get_line_from_lst(t_buff *lst, char *rest, int size);
-int		ft_is_nl_exist(char *buff);
+int     ft_is_nl_exist(char *buff);
 
-char	*get_next_line(int fd)
+char    *get_next_line(fd)
 {
-	static char	rest[BUFFER_SIZE];
-	char			*line;
-	t_buff			*lst;
-	int				size;
+	static char	rest[OPEN_MAX][BUFFER_SIZE];
+	char		*line;
+	t_buff		*lst;
+	int		size;
 
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (0);
 	lst = 0;
 	size = 0;
-	if (ft_is_nl_exist((char *)rest))
-		return (get_line_from_rest(rest));
+	if (ft_is_nl_exist((char *) rest[fd]))
+		return (get_line_from_rest(rest[fd]));
 	lst = ft_lstcreat(fd, &size);
-	if (!lst && !*rest)
+	if (!lst && !*rest[fd])
 		return (0);
-	line = get_line_from_lst(lst, rest, ++size);
+	line = get_line_from_lst(lst, rest[fd], ++size);
 	ft_lstclear(&lst);
 	return (line);
 }
