@@ -6,12 +6,12 @@
 /*   By: oezzaou <oezzaou@student.1337.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 02:40:15 by oezzaou           #+#    #+#             */
-/*   Updated: 2022/10/23 02:40:25 by oezzaou          ###   ########.fr       */
+/*   Updated: 2022/10/23 12:10:51 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-t_buff	*ft_lstcreat(int fd, int *size);
+t_buff	*ft_lstcreat(int fd, char *buff, int *size);
 char	*get_line_from_rest(char *rest);
 char	*get_line_from_lst(t_buff *lst, char *rest, int size);
 int		ft_is_nl_exist(char *buff);
@@ -19,17 +19,18 @@ int		ft_is_nl_exist(char *buff);
 char	*get_next_line(int fd)
 {
 	static char	rest[BUFFER_SIZE];
-	char			*line;
-	t_buff			*lst;
-	int				size;
+	char		*line;
+	t_buff		*lst;
+	int			size;
 
-	if (fd < 0 || BUFFER_SIZE < 0)
-		return (0);
 	lst = 0;
 	size = 0;
+	line = 0;
+	if (fd < 0 || BUFFER_SIZE < 0)
+		return (0);
 	if (ft_is_nl_exist((char *)rest))
 		return (get_line_from_rest(rest));
-	lst = ft_lstcreat(fd, &size);
+	lst = ft_lstcreat(fd, line, &size);
 	if (!lst && !*rest)
 		return (0);
 	line = get_line_from_lst(lst, rest, ++size);
@@ -37,15 +38,13 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-t_buff	*ft_lstcreat(int fd, int *size)
+t_buff	*ft_lstcreat(int fd, char *buff, int *size)
 {
 	t_buff	*lst;
-	int	n_read;
-	char	*buff;
+	int		n_read;
 
 	lst = 0;
 	n_read = 1;
-	buff = 0;
 	while (n_read && !ft_is_nl_exist(buff))
 	{
 		buff = (char *) ft_calloc(BUFFER_SIZE + 1, 1);
@@ -56,10 +55,8 @@ t_buff	*ft_lstcreat(int fd, int *size)
 		{
 			free(buff);
 			if (n_read == -1)
-				ft_lstclear(&lst);
-			else
-				return (lst);
-			return (0);
+				return (ft_lstclear(&lst));
+			return (lst);
 		}
 		if (lst)
 			(ft_lstlast(lst))->next = ft_lstnew(buff);
@@ -73,8 +70,8 @@ t_buff	*ft_lstcreat(int fd, int *size)
 char	*get_line_from_rest(char *rest)
 {
 	char	*line;
-	int	l;
-	int	i;
+	int		l;
+	int		i;
 
 	l = -1;
 	while (rest[++l] && rest[l] != '\n')
@@ -90,14 +87,13 @@ char	*get_line_from_rest(char *rest)
 	while (rest[++l])
 		rest[i++] = rest[l];
 	rest[i] = 0;
-//	printf("rest_from_rest:=====> %s\n", rest);
 	return (line);
 }
 
 char	*get_line_from_lst(t_buff *lst, char *rest, int size)
 {
 	char	*line;
-	int	i;
+	int		i;
 
 	line = ft_calloc((size * BUFFER_SIZE) + 1, 1);
 	if (!line)
@@ -133,48 +129,3 @@ int	ft_is_nl_exist(char *buff)
 		return (1);
 	return (0);
 }
-/*
-char	*get_next_line(fd)
-{
-	static char 	rest[BUFFER_SIZE + 1];
-	char		*line;
-	t_buff		*lst;
-	int		size;
-
-	if (fd < 0 || BUFFER_SIZE < 0)
-		return (0);
-	lst = 0;
-	counter = size;
-	if (ft_is_nl_exist((char *)rest))
-		return (get_line_from_rest(rest));
-	lst = ft_lstcreat(fd, &size);
-	if (!lst && !*rest)
-		return (0);
-	line = get_line_from_lst(lst, rest, ++counter);
-	ft_lstclear(&lst);
-	return (line);
-}
-*/
-/*
-int	main(void)
-{
-	char	*s;
-	int	fd;
-
-	fd = open("test.txt", O_CREAT | O_RDWR, 0777);
-	if (fd < 0)
-		return (0);
-	s = get_next_line(fd);
-	while (s)
-	{
-		printf("line :=> %s\n", s);
-		free(s);
-		s = get_next_line(fd);
-	}
-	while (1);
-//	printf("line :=> %s", s);
-//	printf("line :=> %s", get_next_line(fd));
-//	printf("line :=> %s", get_next_line(fd));
-	return (0);
-}
-*/
