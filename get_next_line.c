@@ -11,11 +11,13 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
+//====<[ Function: prototypes ]>================================================
 t_buff	*ft_lstcreat(int fd, char *buff, int *size);
 char	*get_line_from_rest(char *rest);
 char	*get_line_from_lst(t_buff *lst, char *rest, int size);
 int		ft_is_nl_exist(char *buff);
 
+//====<[ get_next_line ]>=======================================================
 char	*get_next_line(int fd)
 {
 	static char	rest[BUFFER_SIZE];
@@ -38,6 +40,7 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+//====<[ ft_lstcreate: ]>=======================================================
 t_buff	*ft_lstcreat(int fd, char *buff, int *size)
 {
 	t_buff	*lst;
@@ -67,6 +70,7 @@ t_buff	*ft_lstcreat(int fd, char *buff, int *size)
 	return (lst);
 }
 
+//====<[ get_line_from_rest: ]>=================================================
 char	*get_line_from_rest(char *rest)
 {
 	char	*line;
@@ -90,6 +94,7 @@ char	*get_line_from_rest(char *rest)
 	return (line);
 }
 
+//====<[ get_line_from_lst: ]>==================================================
 char	*get_line_from_lst(t_buff *lst, char *rest, int size)
 {
 	char	*line;
@@ -119,6 +124,7 @@ char	*get_line_from_lst(t_buff *lst, char *rest, int size)
 	return (line);
 }
 
+//====<[ is_nl_exist: ]>========================================================
 int	ft_is_nl_exist(char *buff)
 {
 	if (!buff)
