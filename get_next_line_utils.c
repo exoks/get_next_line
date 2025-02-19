@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
+//====<[ ft_lstnew: ]>==========================================================
 t_buff	*ft_lstnew(char *buff)
 {
 	t_buff	*node;
@@ -23,6 +24,7 @@ t_buff	*ft_lstnew(char *buff)
 	return (node);
 }
 
+//====<[ ft_lstlast: ]>=========================================================
 t_buff	*ft_lstlast(t_buff *lst)
 {
 	while (lst)
@@ -34,6 +36,7 @@ t_buff	*ft_lstlast(t_buff *lst)
 	return (lst);
 }
 
+//====<[ ft_lstclear: ]>========================================================
 t_buff	*ft_lstclear(t_buff **head)
 {
 	t_buff	*tmp;
@@ -49,6 +52,7 @@ t_buff	*ft_lstclear(t_buff **head)
 	return (0);
 }
 
+//====<[ ft_calloc: ]>==========================================================
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*pt;
@@ -63,6 +67,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (pt);
 }
 
+//====<[ ft_strcat: ]>==========================================================
 char	*ft_strcat(char *dst, char *src)
 {
 	int	i;
